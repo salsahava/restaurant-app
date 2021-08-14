@@ -21,14 +21,14 @@ final TextTheme myTextTheme = TextTheme(
       fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.15),
   subtitle2: GoogleFonts.poppins(
       fontSize: 13, fontWeight: FontWeight.w500, letterSpacing: 0.1),
-  bodyText1: GoogleFonts.josefinSans(
-      fontSize: 20, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-  bodyText2: GoogleFonts.josefinSans(
-      fontSize: 18, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-  button: GoogleFonts.josefinSans(
-      fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: 1.25),
-  caption: GoogleFonts.josefinSans(
-      fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.4),
-  overline: GoogleFonts.josefinSans(
-      fontSize: 13, fontWeight: FontWeight.w400, letterSpacing: 1.5),
+  bodyText1: GoogleFonts.poppins(
+      fontSize: 15, fontWeight: FontWeight.w400, letterSpacing: 0.5),
+  bodyText2: GoogleFonts.poppins(
+      fontSize: 13, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+  button: GoogleFonts.poppins(
+      fontSize: 13, fontWeight: FontWeight.w500, letterSpacing: 1.25),
+  caption: GoogleFonts.poppins(
+      fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
+  overline: GoogleFonts.poppins(
+      fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
 );
