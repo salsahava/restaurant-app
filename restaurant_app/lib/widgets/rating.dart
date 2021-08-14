@@ -14,7 +14,7 @@ class Rating extends StatelessWidget {
       width: 60,
       height: 25,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Icon(Icons.star, color: Colors.white, size: 15),
           Text(

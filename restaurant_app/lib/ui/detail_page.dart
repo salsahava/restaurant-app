@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/data/model/menu_item.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/widgets/detail_header.dart';
+import 'package:restaurant_app/widgets/menu_item_card.dart';
 import 'package:restaurant_app/widgets/rating.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
@@ -20,40 +23,7 @@ class RestaurantDetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              height: screenSize.height * .5,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(restaurant.pictureId),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: defaultPadding, vertical: defaultPadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back, color: darkBlueGrey),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            DetailHeader(restaurant: restaurant),
             Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: screenSize.height * .45),
@@ -73,10 +43,11 @@ class RestaurantDetailPage extends StatelessWidget {
                         flex: 2,
                         child: Text(
                           restaurant.name,
-                          style: Theme.of(context).textTheme.headline4?.copyWith(
-                                color: darkBlueGrey,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.headline5?.copyWith(
+                                    color: darkBlueGrey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ),
                       Rating(restaurant: restaurant),
@@ -103,11 +74,43 @@ class RestaurantDetailPage extends StatelessWidget {
                   ),
                   SizedBox(height: 8.0),
                   Text(restaurant.description),
+                  SizedBox(height: defaultPadding),
+                  Text(
+                    'Foods',
+                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                          color: darkBlueGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  _buildMenuItemList(context, restaurant.menus.foods),
+                  SizedBox(height: defaultPadding),
+                  Text(
+                    'Drinks',
+                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                          color: darkBlueGrey,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                  _buildMenuItemList(context, restaurant.menus.drinks),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItemList(BuildContext context, List<MenuItem> items) {
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final MenuItem item = items[index];
+          return MenuItemCard(item: item);
+        },
       ),
     );
   }
