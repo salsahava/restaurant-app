@@ -38,7 +38,7 @@ class DetailHeader extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white,
+                  color: cream,
                 ),
               ),
             ],

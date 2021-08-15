@@ -23,12 +23,15 @@ class RestaurantItem extends StatelessWidget {
           fit: BoxFit.fill,
         ),
       ),
-      title: Text(
-        restaurant.name,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1
-            ?.copyWith(fontWeight: FontWeight.bold, color: darkBlueGrey),
+      title: Hero(
+        tag: restaurant.id,
+        child: Text(
+          restaurant.name,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              ?.copyWith(fontWeight: FontWeight.bold, color: darkBlueGrey),
+        ),
       ),
       subtitle: Row(
         children: [

@@ -45,13 +45,6 @@ class MenuItemCard extends StatelessWidget {
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10),
               ),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 10),
-                  blurRadius: 50,
-                  color: darkBlueGrey,
-                ),
-              ],
             ),
             child: Text(
               item.name,

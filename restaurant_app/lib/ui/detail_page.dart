@@ -19,7 +19,7 @@ class RestaurantDetailPage extends StatelessWidget {
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: cream,
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -30,7 +30,7 @@ class RestaurantDetailPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                   horizontal: defaultPadding + 10, vertical: defaultPadding),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: cream,
                 borderRadius: BorderRadius.circular(35),
               ),
               child: Column(
@@ -41,13 +41,16 @@ class RestaurantDetailPage extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 2,
-                        child: Text(
-                          restaurant.name,
-                          style:
-                              Theme.of(context).textTheme.headline5?.copyWith(
-                                    color: darkBlueGrey,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                        child: Hero(
+                          tag: restaurant.id,
+                          child: Text(
+                            restaurant.name,
+                            style:
+                                Theme.of(context).textTheme.headline4?.copyWith(
+                                      color: darkBlueGrey,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
                         ),
                       ),
                       Rating(restaurant: restaurant),
