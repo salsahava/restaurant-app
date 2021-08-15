@@ -19,20 +19,31 @@ class HomePage extends StatelessWidget {
           HomeHeader(),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  bottom: defaultPadding),
+              padding: const EdgeInsets.only(bottom: defaultPadding),
               child: FutureBuilder<String>(
                 future: DefaultAssetBundle.of(context)
                     .loadString('assets/local_restaurant.json'),
                 builder: (context, snapshot) {
-                  final List<Restaurant> restaurants =
-                      parseRestaurants(snapshot.data);
-                  return ListView.builder(
-                    itemCount: restaurants.length,
-                    itemBuilder: (context, index) {
-                      return _buildRestaurantItem(context, restaurants[index]);
-                    },
-                  );
+                  var _returnWidget;
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    _returnWidget = CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    _returnWidget = SnackBar(
+                      content: Text(
+                          'Something went wrong. Please refresh the page to try again.'),
+                    );
+                  } else if (snapshot.hasData) {
+                    final List<Restaurant> restaurants =
+                        parseRestaurants(snapshot.data);
+                    _returnWidget = ListView.builder(
+                      itemCount: restaurants.length,
+                      itemBuilder: (context, index) {
+                        return _buildRestaurantItem(
+                            context, restaurants[index]);
+                      },
+                    );
+                  }
+                  return _returnWidget;
                 },
               ),
             ),
