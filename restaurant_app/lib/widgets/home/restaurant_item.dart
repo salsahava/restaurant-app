@@ -33,20 +33,24 @@ class RestaurantItem extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.bold, color: darkBlueGrey),
         ),
       ),
-      subtitle: Row(
-        children: [
-          Icon(Icons.place, color: Colors.grey, size: 15),
-          Text(
-            restaurant.city,
-            style: TextStyle(color: Colors.grey),
-          ),
-        ],
-      ),
+      subtitle: _buildLocation(context),
       trailing: Rating(restaurant: restaurant),
       onTap: () {
         Navigator.pushNamed(context, RestaurantDetailPage.routeName,
             arguments: restaurant);
       },
+    );
+  }
+
+  Widget _buildLocation(BuildContext context) {
+    return Row(
+      children: [
+        Icon(Icons.place, color: Colors.grey, size: 15),
+        Text(
+          restaurant.city,
+          style: TextStyle(color: Colors.grey),
+        ),
+      ],
     );
   }
 }

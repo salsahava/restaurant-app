@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/model/menu_item.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
-import 'package:restaurant_app/widgets/detail_header.dart';
-import 'package:restaurant_app/widgets/menu_item_card.dart';
+import 'package:restaurant_app/widgets/detail/detail_header.dart';
+import 'package:restaurant_app/widgets/detail/menu_item_card.dart';
 import 'package:restaurant_app/widgets/rating.dart';
 
 class RestaurantDetailPage extends StatelessWidget {
@@ -36,64 +36,17 @@ class RestaurantDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Hero(
-                          tag: restaurant.id,
-                          child: Text(
-                            restaurant.name,
-                            style:
-                                Theme.of(context).textTheme.headline4?.copyWith(
-                                      color: darkBlueGrey,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
-                        ),
-                      ),
-                      Rating(restaurant: restaurant),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.place, color: Colors.grey, size: 15),
-                      Text(
-                        restaurant.city,
-                        style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                              color: Colors.grey,
-                            ),
-                      ),
-                    ],
-                  ),
+                  _buildUpperInfo(context),
+                  _buildLocation(context),
                   SizedBox(height: defaultPadding),
-                  Text(
-                    'Description',
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
-                          color: darkBlueGrey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+                  _buildSectionTitle(context, 'Description'),
                   SizedBox(height: 8.0),
                   Text(restaurant.description),
                   SizedBox(height: defaultPadding),
-                  Text(
-                    'Foods',
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
-                          color: darkBlueGrey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+                  _buildSectionTitle(context, 'Foods'),
                   _buildMenuItemList(context, restaurant.menus.foods),
                   SizedBox(height: defaultPadding),
-                  Text(
-                    'Drinks',
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
-                          color: darkBlueGrey,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
+                  _buildSectionTitle(context, 'Drinks'),
                   _buildMenuItemList(context, restaurant.menus.drinks),
                 ],
               ),
@@ -101,6 +54,52 @@ class RestaurantDetailPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildUpperInfo(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          flex: 2,
+          child: Hero(
+            tag: restaurant.id,
+            child: Text(
+              restaurant.name,
+              style: Theme.of(context).textTheme.headline4?.copyWith(
+                    color: darkBlueGrey,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ),
+        ),
+        Rating(restaurant: restaurant),
+      ],
+    );
+  }
+
+  Widget _buildLocation(BuildContext context) {
+    return Row(
+      children: [
+        Icon(Icons.place, color: Colors.grey, size: 15),
+        Text(
+          restaurant.city,
+          style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                color: Colors.grey,
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionTitle(BuildContext context, String title) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.headline6?.copyWith(
+            color: darkBlueGrey,
+            fontWeight: FontWeight.bold,
+          ),
     );
   }
 
