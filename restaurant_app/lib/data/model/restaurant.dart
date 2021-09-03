@@ -1,16 +1,29 @@
 import 'dart:convert';
 
-import 'menu.dart';
+class RestaurantResult {
+  RestaurantResult({
+    required this.error,
+    required this.message,
+    required this.count,
+    required this.restaurants,
+  });
+
+  bool error;
+  String message;
+  int count;
+  List<Restaurant> restaurants;
+
+  factory RestaurantResult.fromJson(Map<String, dynamic> restaurantResult) =>
+      RestaurantResult(
+        error: restaurantResult['error'],
+        message: restaurantResult['message'],
+        count: restaurantResult['count'],
+        restaurants: List<Restaurant>.from(
+            restaurantResult['restaurants'].map((x) => Restaurant.fromJson(x))),
+      );
+}
 
 class Restaurant {
-  late String id;
-  late String name;
-  late String description;
-  late String pictureId;
-  late String city;
-  late double rating;
-  late Menu menus;
-
   Restaurant({
     required this.id,
     required this.name,
@@ -18,18 +31,23 @@ class Restaurant {
     required this.pictureId,
     required this.city,
     required this.rating,
-    required this.menus,
   });
 
-  Restaurant.fromJson(Map<String, dynamic> restaurant) {
-    id = restaurant['id'];
-    name = restaurant['name'];
-    description = restaurant['description'];
-    pictureId = restaurant['pictureId'];
-    city = restaurant['city'];
-    rating = restaurant['rating'].toDouble();
-    menus = Menu.fromJson(restaurant['menus']);
-  }
+  String id;
+  String name;
+  String description;
+  String pictureId;
+  String city;
+  double rating;
+
+  factory Restaurant.fromJson(Map<String, dynamic> restaurant) => Restaurant(
+        id: restaurant['id'],
+        name: restaurant['name'],
+        description: restaurant['description'],
+        pictureId: restaurant['pictureId'],
+        city: restaurant['city'],
+        rating: restaurant['rating'].toDouble(),
+      );
 }
 
 List<Restaurant> parseRestaurants(String? json) {

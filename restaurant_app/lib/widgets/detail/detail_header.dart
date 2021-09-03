@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/data/model/restaurant_detail.dart';
 
 class DetailHeader extends StatelessWidget {
-  final Restaurant restaurant;
+  final RestaurantDetail restaurant;
 
   const DetailHeader({required this.restaurant});
 
@@ -17,7 +17,8 @@ class DetailHeader extends StatelessWidget {
       height: screenSize.height * .5,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: NetworkImage(restaurant.pictureId),
+          image: NetworkImage(
+              'https://restaurant-api.dicoding.dev/images/large/${restaurant.pictureId}'),
           fit: BoxFit.cover,
         ),
       ),

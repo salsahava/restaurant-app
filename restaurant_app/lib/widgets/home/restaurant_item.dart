@@ -18,7 +18,7 @@ class RestaurantItem extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: Image.network(
-          restaurant.pictureId,
+          'https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}',
           width: 80,
           fit: BoxFit.fill,
         ),
@@ -34,10 +34,10 @@ class RestaurantItem extends StatelessWidget {
         ),
       ),
       subtitle: _buildLocation(context),
-      trailing: Rating(restaurant: restaurant),
+      trailing: Rating(rating: restaurant.rating),
       onTap: () {
         Navigator.pushNamed(context, RestaurantDetailPage.routeName,
-            arguments: restaurant);
+            arguments: restaurant.id);
       },
     );
   }

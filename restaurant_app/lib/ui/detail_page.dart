@@ -1,21 +1,63 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/data/model/customer_review.dart';
 import 'package:restaurant_app/data/model/menu_item.dart';
-import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/widgets/detail/detail_header.dart';
 import 'package:restaurant_app/widgets/detail/menu_item_card.dart';
 import 'package:restaurant_app/widgets/rating.dart';
 
-class RestaurantDetailPage extends StatelessWidget {
+class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
 
-  final Restaurant restaurant;
+  final String restaurantId;
 
-  const RestaurantDetailPage({required this.restaurant});
+  const RestaurantDetailPage({required this.restaurantId});
+
+  @override
+  _RestaurantDetailPageState createState() => _RestaurantDetailPageState();
+}
+
+class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
+  Future<RestaurantDetailResult>? _restaurantDetail;
+  late RestaurantDetail restaurantDetail;
+
+  @override
+  void initState() {
+    super.initState();
+    _restaurantDetail = ApiService().getRestaurantDetail(widget.restaurantId);
+  }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _restaurantDetail,
+      builder: (context, AsyncSnapshot<RestaurantDetailResult> snapshot) {
+        var state = snapshot.connectionState;
+
+        if (state == ConnectionState.waiting) {
+          return SizedBox(child: Center(child: CircularProgressIndicator()));
+        } else {
+          if (snapshot.hasData) {
+            restaurantDetail = snapshot.data!.restaurantDetail;
+            return _buildDetailPage(context, restaurantDetail);
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                  'Something went wrong. Please refresh the page to try again.'),
+            );
+          } else {
+            return Text('');
+          }
+        }
+      },
+    );
+  }
+
+  Widget _buildDetailPage(
+      BuildContext context, RestaurantDetail restaurantDetail) {
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -23,7 +65,7 @@ class RestaurantDetailPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            DetailHeader(restaurant: restaurant),
+            DetailHeader(restaurant: restaurantDetail),
             Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: screenSize.height * .45),
@@ -41,13 +83,16 @@ class RestaurantDetailPage extends StatelessWidget {
                   SizedBox(height: defaultPadding),
                   _buildSectionTitle(context, 'Description'),
                   SizedBox(height: 8.0),
-                  Text(restaurant.description),
+                  Text(restaurantDetail.description),
                   SizedBox(height: defaultPadding),
                   _buildSectionTitle(context, 'Foods'),
-                  _buildMenuItemList(context, restaurant.menus.foods),
+                  _buildMenuItemList(context, restaurantDetail.menus.foods),
                   SizedBox(height: defaultPadding),
                   _buildSectionTitle(context, 'Drinks'),
-                  _buildMenuItemList(context, restaurant.menus.drinks),
+                  _buildMenuItemList(context, restaurantDetail.menus.drinks),
+                  SizedBox(height: defaultPadding),
+                  _buildSectionTitle(context, 'Reviews'),
+                  _buildReviewList(context, restaurantDetail.customerReviews),
                 ],
               ),
             ),
@@ -64,9 +109,9 @@ class RestaurantDetailPage extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Hero(
-            tag: restaurant.id,
+            tag: restaurantDetail.id,
             child: Text(
-              restaurant.name,
+              restaurantDetail.name,
               style: Theme.of(context).textTheme.headline4?.copyWith(
                     color: darkBlueGrey,
                     fontWeight: FontWeight.bold,
@@ -74,7 +119,7 @@ class RestaurantDetailPage extends StatelessWidget {
             ),
           ),
         ),
-        Rating(restaurant: restaurant),
+        Rating(rating: restaurantDetail.rating),
       ],
     );
   }
@@ -84,7 +129,7 @@ class RestaurantDetailPage extends StatelessWidget {
       children: [
         Icon(Icons.place, color: Colors.grey, size: 15),
         Text(
-          restaurant.city,
+          restaurantDetail.city,
           style: Theme.of(context).textTheme.subtitle1?.copyWith(
                 color: Colors.grey,
               ),
@@ -113,6 +158,36 @@ class RestaurantDetailPage extends StatelessWidget {
           final MenuItem item = items[index];
           return MenuItemCard(item: item);
         },
+      ),
+    );
+  }
+
+  Widget _buildReviewList(BuildContext context, List<CustomerReview> reviews) {
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: 200,
+        child: ListView.builder(
+          itemCount: reviews.length,
+          itemBuilder: (context, index) {
+            final CustomerReview review = reviews[index];
+            return Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: ListTile(
+                title: Text(
+                  review.name,
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                      fontWeight: FontWeight.bold, color: darkBlueGrey),
+                ),
+                subtitle: Text(
+                  review.review,
+                ),
+                isThreeLine: true,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

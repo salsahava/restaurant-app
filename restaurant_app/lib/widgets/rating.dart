@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/model/restaurant.dart';
 
 class Rating extends StatelessWidget {
-  final Restaurant restaurant;
+  final double rating;
 
-  const Rating({required this.restaurant});
+  const Rating({required this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,7 @@ class Rating extends StatelessWidget {
         children: [
           Icon(Icons.star, color: Colors.white, size: 15),
           Text(
-            restaurant.rating.toString(),
+            rating.toString(),
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

@@ -1,43 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/widgets/home/restaurant_item.dart';
 
-class RestaurantList extends StatelessWidget {
+class RestaurantList extends StatefulWidget {
+  @override
+  _RestaurantListState createState() => _RestaurantListState();
+}
+
+class _RestaurantListState extends State<RestaurantList> {
+  Future<RestaurantResult>? _restaurant;
+
+  @override
+  void initState() {
+    super.initState();
+    _restaurant = ApiService().getRestaurantList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: defaultPadding),
-        child: FutureBuilder<String>(
-          future: DefaultAssetBundle.of(context)
-              .loadString('assets/local_restaurant.json'),
-          builder: (context, snapshot) {
-            var _returnWidget;
+        child: FutureBuilder(
+          future: _restaurant,
+          builder: (context, AsyncSnapshot<RestaurantResult> snapshot) {
+            var state = snapshot.connectionState;
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              _returnWidget = SizedBox(
-                  height: screenSize.height / 1.3,
+            if (state == ConnectionState.waiting) {
+              return SizedBox(
                   child: Center(child: CircularProgressIndicator()));
-            } else if (snapshot.hasError) {
-              _returnWidget = SnackBar(
-                content: Text(
-                    'Something went wrong. Please refresh the page to try again.'),
-              );
-            } else if (snapshot.hasData) {
-              final List<Restaurant> restaurants =
-                  parseRestaurants(snapshot.data);
-              _returnWidget = ListView.builder(
-                itemCount: restaurants.length,
-                itemBuilder: (context, index) {
-                  return _buildRestaurantItem(context, restaurants[index]);
-                },
-              );
+            } else {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: snapshot.data?.restaurants.length,
+                  itemBuilder: (context, index) {
+                    var restaurant = snapshot.data?.restaurants[index];
+                    return _buildRestaurantItem(context, restaurant!);
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                      'Something went wrong. Please refresh the page to try again.',
+                    style: Theme.of(context).textTheme.headline1,
+                  ),
+                );
+              } else {
+                return Text('');
+              }
             }
-            return _returnWidget;
           },
         ),
       ),
