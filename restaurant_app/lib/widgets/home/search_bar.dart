@@ -2,7 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
 
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
+  final void Function(String search) onSearch;
+
+  SearchBar({required this.onSearch});
+
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,13 +26,16 @@ class SearchBar extends StatelessWidget {
       ),
       child: TextField(
         decoration: InputDecoration(
-            hintText: "Search a restaurant",
+            hintText: "Search for a restaurant",
             hintStyle: TextStyle(
               color: Colors.grey,
             ),
             icon: Icon(Icons.search, color: Colors.grey),
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none),
+        onChanged: (value) {
+          widget.onSearch(value);
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/notices.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
@@ -21,6 +22,8 @@ class _RestaurantListState extends State<RestaurantList> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: defaultPadding),
@@ -30,24 +33,20 @@ class _RestaurantListState extends State<RestaurantList> {
             var state = snapshot.connectionState;
 
             if (state == ConnectionState.waiting) {
-              return SizedBox(
-                  child: Center(child: CircularProgressIndicator()));
+              return Center(child: CircularProgressIndicator());
+            } else if (state == ConnectionState.none) {
+              return noInternetNotice(context, screenSize);
             } else {
               if (snapshot.hasData) {
                 return ListView.builder(
                   itemCount: snapshot.data?.restaurants.length,
                   itemBuilder: (context, index) {
                     var restaurant = snapshot.data?.restaurants[index];
-                    return _buildRestaurantItem(context, restaurant!);
+                    return RestaurantItem(restaurant: restaurant!);
                   },
                 );
               } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                      'Something went wrong. Please refresh the page to try again.',
-                    style: Theme.of(context).textTheme.headline1,
-                  ),
-                );
+                return errorNotice(context, screenSize);
               } else {
                 return Text('');
               }
@@ -56,9 +55,5 @@ class _RestaurantListState extends State<RestaurantList> {
         ),
       ),
     );
-  }
-
-  Widget _buildRestaurantItem(BuildContext context, Restaurant restaurant) {
-    return RestaurantItem(restaurant: restaurant);
   }
 }

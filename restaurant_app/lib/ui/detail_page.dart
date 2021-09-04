@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/notices.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/customer_review.dart';
@@ -32,22 +33,23 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
     return FutureBuilder(
       future: _restaurantDetail,
       builder: (context, AsyncSnapshot<RestaurantDetailResult> snapshot) {
         var state = snapshot.connectionState;
 
         if (state == ConnectionState.waiting) {
-          return SizedBox(child: Center(child: CircularProgressIndicator()));
+          return Center(child: CircularProgressIndicator());
+        } else if (state == ConnectionState.none) {
+          return noInternetNotice(context, screenSize);
         } else {
           if (snapshot.hasData) {
             restaurantDetail = snapshot.data!.restaurantDetail;
             return _buildDetailPage(context, restaurantDetail);
           } else if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                  'Something went wrong. Please refresh the page to try again.'),
-            );
+            return errorNotice(context, screenSize);
           } else {
             return Text('');
           }
