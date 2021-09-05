@@ -33,7 +33,8 @@ class _RestaurantListState extends State<RestaurantList> {
             var state = snapshot.connectionState;
 
             if (state == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                  child: CircularProgressIndicator(color: darkBlueGrey));
             } else if (state == ConnectionState.none) {
               return noInternetNotice(context, screenSize);
             } else {

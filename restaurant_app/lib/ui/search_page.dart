@@ -47,7 +47,8 @@ class _SearchPageState extends State<SearchPage> {
 
                           if (state == ConnectionState.waiting) {
                             return Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                  color: darkBlueGrey),
                             );
                           } else if (state == ConnectionState.none) {
                             return noInternetNotice(context, screenSize);
