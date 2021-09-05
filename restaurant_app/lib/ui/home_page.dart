@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/ui/search_page.dart';
 import 'package:restaurant_app/widgets/home/home_header.dart';
 import 'package:restaurant_app/widgets/home/restaurant_list.dart';
@@ -28,7 +31,9 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HomeHeader(),
-            RestaurantList(),
+            ChangeNotifierProvider<RestaurantProvider>(
+                create: (_) => RestaurantProvider(apiService: ApiService()),
+                child: RestaurantList()),
           ],
         ),
       ),

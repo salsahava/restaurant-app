@@ -1,56 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/notices.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/widgets/home/restaurant_item.dart';
 
-class RestaurantList extends StatefulWidget {
-  @override
-  _RestaurantListState createState() => _RestaurantListState();
-}
-
-class _RestaurantListState extends State<RestaurantList> {
-  Future<RestaurantResult>? _restaurant;
-
-  @override
-  void initState() {
-    super.initState();
-    _restaurant = ApiService().getRestaurantList();
-  }
-
+class RestaurantList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: defaultPadding),
-        child: FutureBuilder(
-          future: _restaurant,
-          builder: (context, AsyncSnapshot<RestaurantResult> snapshot) {
-            var state = snapshot.connectionState;
-
-            if (state == ConnectionState.waiting) {
+        child: Consumer<RestaurantProvider>(
+          builder: (context, state, _) {
+            if (state.state == ResultState.NoConnection) {
+              return noInternetNotice(context, state.message);
+            } else if (state.state == ResultState.Loading) {
               return Center(
                   child: CircularProgressIndicator(color: darkBlueGrey));
-            } else if (state == ConnectionState.none) {
-              return noInternetNotice(context, screenSize);
+            } else if (state.state == ResultState.HasData) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.restaurantResult!.restaurants.length,
+                itemBuilder: (context, index) {
+                  var restaurant = state.restaurantResult!.restaurants[index];
+                  return RestaurantItem(restaurant: restaurant);
+                },
+              );
+            } else if (state.state == ResultState.NoData) {
+              return noResultsNotice(context, state.message);
+            } else if (state.state == ResultState.Error) {
+              return errorNotice(context, state.message);
             } else {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data?.restaurants.length,
-                  itemBuilder: (context, index) {
-                    var restaurant = snapshot.data?.restaurants[index];
-                    return RestaurantItem(restaurant: restaurant!);
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return errorNotice(context, screenSize);
-              } else {
-                return Text('');
-              }
+              return Center(child: Text(''));
             }
           },
         ),

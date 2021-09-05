@@ -33,23 +33,22 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
-
     return FutureBuilder(
       future: _restaurantDetail,
       builder: (context, AsyncSnapshot<RestaurantDetailResult> snapshot) {
         var state = snapshot.connectionState;
 
-        if (state == ConnectionState.waiting) {
+        if (state != ConnectionState.done) {
           return Center(child: CircularProgressIndicator(color: darkBlueGrey));
         } else if (state == ConnectionState.none) {
-          return noInternetNotice(context, screenSize);
+          return noInternetNotice(context, 'No internet connection');
         } else {
           if (snapshot.hasData) {
             restaurantDetail = snapshot.data!.restaurantDetail;
             return _buildDetailPage(context, restaurantDetail);
           } else if (snapshot.hasError) {
-            return errorNotice(context, screenSize);
+            return errorNotice(context,
+                'Something went wrong. Please refresh the page to try again.');
           } else {
             return Text('');
           }

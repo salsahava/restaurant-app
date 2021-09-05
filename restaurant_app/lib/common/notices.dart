@@ -2,20 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/common/styles.dart';
 
-Widget noInternetNotice(BuildContext context, Size screenSize) {
+Widget noInternetNotice(BuildContext context, String message) {
   return SizedBox(
-    height: screenSize.height / 3,
+    height: 150,
     child: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.wifi_off, color: Colors.black12, size: 110),
+          Icon(Icons.wifi_off, color: Colors.black12, size: 72),
           SizedBox(height: defaultPadding),
           Text(
-            'No internet connection',
+            message,
             style: TextStyle(
               color: Colors.black12,
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -25,20 +25,20 @@ Widget noInternetNotice(BuildContext context, Size screenSize) {
   );
 }
 
-Widget errorNotice(BuildContext context, Size screenSize) {
+Widget errorNotice(BuildContext context, String message) {
   return SizedBox(
-    height: screenSize.height / 3,
+    height: 150,
     child: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error, color: Colors.black12, size: 110),
+          Icon(Icons.error, color: Colors.black12, size: 72),
           SizedBox(height: defaultPadding),
           Text(
-            'Something went wrong. Please refresh the page to try again.',
+            message,
             style: TextStyle(
               color: Colors.black12,
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -48,9 +48,9 @@ Widget errorNotice(BuildContext context, Size screenSize) {
   );
 }
 
-Widget noResultsNotice(BuildContext context, Size screenSize) {
+Widget noResultsNotice(BuildContext context, String message) {
   return SizedBox(
-    height: screenSize.height / 3,
+    height: 150,
     child: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,7 @@ Widget noResultsNotice(BuildContext context, Size screenSize) {
           Icon(Icons.search, color: Colors.black12, size: 72),
           SizedBox(height: defaultPadding),
           Text(
-            'No results to display',
+            message,
             style: TextStyle(
               color: Colors.black12,
               fontSize: 16,
