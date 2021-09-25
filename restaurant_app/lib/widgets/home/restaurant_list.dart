@@ -10,33 +10,30 @@ class RestaurantList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: defaultPadding),
-        child: Consumer<RestaurantProvider>(
-          builder: (context, state, _) {
-            if (state.state == ResultState.NoConnection) {
-              return noInternetNotice(context, state.message);
-            } else if (state.state == ResultState.Loading) {
-              return Center(
-                  child: CircularProgressIndicator(color: darkBlueGrey));
-            } else if (state.state == ResultState.HasData) {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.restaurantResult!.restaurants.length,
-                itemBuilder: (context, index) {
-                  var restaurant = state.restaurantResult!.restaurants[index];
-                  return RestaurantItem(restaurant: restaurant);
-                },
-              );
-            } else if (state.state == ResultState.NoData) {
-              return noResultsNotice(context, state.message);
-            } else if (state.state == ResultState.Error) {
-              return errorNotice(context, state.message);
-            } else {
-              return Center(child: Text(''));
-            }
-          },
-        ),
+      child: Consumer<RestaurantProvider>(
+        builder: (context, state, _) {
+          if (state.state == ResultState.NoConnection) {
+            return noInternetNotice(context, state.message);
+          } else if (state.state == ResultState.Loading) {
+            return Center(
+                child: CircularProgressIndicator(color: darkBlueGrey));
+          } else if (state.state == ResultState.HasData) {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.restaurantResult!.restaurants.length,
+              itemBuilder: (context, index) {
+                var restaurant = state.restaurantResult!.restaurants[index];
+                return RestaurantItem(restaurant: restaurant);
+              },
+            );
+          } else if (state.state == ResultState.NoData) {
+            return noResultsNotice(context, state.message);
+          } else if (state.state == ResultState.Error) {
+            return errorNotice(context, state.message);
+          } else {
+            return Center(child: Text(''));
+          }
+        },
       ),
     );
   }

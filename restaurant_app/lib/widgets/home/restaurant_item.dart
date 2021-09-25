@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/ui/detail_page.dart';
@@ -36,8 +37,8 @@ class RestaurantItem extends StatelessWidget {
       subtitle: _buildLocation(context),
       trailing: Rating(rating: restaurant.rating),
       onTap: () {
-        Navigator.pushNamed(context, RestaurantDetailPage.routeName,
-            arguments: restaurant.id);
+        Navigation.intentWithData(
+            RestaurantDetailPage.routeName, restaurant.id);
       },
     );
   }

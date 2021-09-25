@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 
@@ -35,7 +36,7 @@ class DetailHeader extends StatelessWidget {
                 height: 40,
                 child: IconButton(
                   icon: Icon(Icons.arrow_back, color: darkBlueGrey),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigation.back(),
                 ),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,

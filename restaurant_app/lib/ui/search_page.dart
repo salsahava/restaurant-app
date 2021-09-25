@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/notices.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -23,7 +24,7 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigation.back(),
           icon: Icon(Icons.arrow_back, color: darkBlueGrey),
         ),
       ),
