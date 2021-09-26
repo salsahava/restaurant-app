@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
-import 'package:restaurant_app/data/api/api_service.dart';
-import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/ui/detail_page.dart';
+import 'package:restaurant_app/ui/favorites_page.dart';
 import 'package:restaurant_app/ui/restaurant_list_page.dart';
 import 'package:restaurant_app/ui/settings_page.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
@@ -22,14 +19,9 @@ class _HomePageState extends State<HomePage> {
   int _bottomNavIndex = 0;
 
   List<Widget> _widgetList = [
-    ChangeNotifierProvider<RestaurantProvider>(
-      create: (_) => RestaurantProvider(apiService: ApiService()),
-      child: RestaurantListPage(),
-    ),
-    ChangeNotifierProvider<SchedulingProvider>(
-      create: (_) => SchedulingProvider(),
-      child: SettingsPage(),
-    ),
+    RestaurantListPage(),
+    FavoritesPage(),
+    SettingsPage(),
   ];
 
   List<BottomNavigationBarItem> _bottomNavBarItems = [
@@ -37,10 +29,10 @@ class _HomePageState extends State<HomePage> {
       icon: Icon(Icons.restaurant),
       label: 'Restaurants',
     ),
-    // BottomNavigationBarItem(
-    //   icon: Icon(Icons.favorite),
-    //   label: 'Favorites',
-    // ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.favorite),
+      label: 'Favorites',
+    ),
     BottomNavigationBarItem(
       icon: Icon(Icons.settings),
       label: 'Settings',

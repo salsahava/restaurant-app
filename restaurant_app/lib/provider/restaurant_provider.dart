@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
-
-enum ResultState { Loading, NoConnection, NoData, HasData, Error }
+import 'package:restaurant_app/utils/result_state.dart';
 
 class RestaurantProvider extends ChangeNotifier {
   final ApiService apiService;

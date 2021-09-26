@@ -4,7 +4,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
+import 'package:restaurant_app/data/db/database_helper.dart';
+import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/preferences/preferences_helper.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
@@ -50,6 +53,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        ChangeNotifierProvider(
+          create: (_) => DatabaseProvider(databaseHelper: DatabaseHelper()),
+        ),
       ],
       child: MaterialApp(
         title: 'Restaurant App',
@@ -71,9 +77,8 @@ class MyApp extends StatelessWidget {
         routes: {
           HomePage.routeName: (context) => HomePage(),
           RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
-                restaurantId:
-                    ModalRoute.of(context)?.settings.arguments as String,
-              ),
+              restaurant:
+                  ModalRoute.of(context)?.settings.arguments as Restaurant),
           SearchPage.routeName: (context) => SearchPage(),
         },
       ),

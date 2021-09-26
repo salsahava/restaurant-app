@@ -5,6 +5,7 @@ import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/data/model/customer_review.dart';
 import 'package:restaurant_app/data/model/menu_item.dart';
+import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/model/restaurant_detail.dart';
 import 'package:restaurant_app/widgets/detail/detail_header.dart';
 import 'package:restaurant_app/widgets/detail/menu_item_card.dart';
@@ -13,9 +14,9 @@ import 'package:restaurant_app/widgets/rating.dart';
 class RestaurantDetailPage extends StatefulWidget {
   static const routeName = '/restaurant_detail';
 
-  final String restaurantId;
+  final Restaurant restaurant;
 
-  const RestaurantDetailPage({required this.restaurantId});
+  const RestaurantDetailPage({required this.restaurant});
 
   @override
   _RestaurantDetailPageState createState() => _RestaurantDetailPageState();
@@ -28,7 +29,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   @override
   void initState() {
     super.initState();
-    _restaurantDetail = ApiService().getRestaurantDetail(widget.restaurantId);
+    _restaurantDetail = ApiService().getRestaurantDetail(widget.restaurant.id);
   }
 
   @override
@@ -66,7 +67,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            DetailHeader(restaurant: restaurantDetail),
+            DetailHeader(restaurant: widget.restaurant),
             Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: screenSize.height * .45),

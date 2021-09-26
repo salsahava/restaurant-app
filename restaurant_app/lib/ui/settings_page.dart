@@ -16,10 +16,10 @@ class SettingsPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 32.0,
-                  right: 16.0,
-                  bottom: 10.0,
-                  left: 16.0,
+                  top: 48.0,
+                  right: defaultPadding,
+                  bottom: defaultPadding / 2,
+                  left: defaultPadding,
                 ),
                 child: Text(
                   'Settings',
@@ -35,7 +35,7 @@ class SettingsPage extends StatelessWidget {
                     'Restaurant Recommendation',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyText2
                         ?.copyWith(color: darkBlueGrey),
                   ),
                   trailing: Consumer<SchedulingProvider>(
