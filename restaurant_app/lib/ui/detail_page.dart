@@ -151,7 +151,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   Widget _buildMenuItemList(BuildContext context, List<MenuItem> items) {
     return SizedBox(
-      height: 200,
+      height: 205,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: items.length,
