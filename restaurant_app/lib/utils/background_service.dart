@@ -24,7 +24,7 @@ class BackgroundService {
   }
 
   static Future<void> callback() async {
-    print('Alarm fired');
+    print('Alarm fired!');
 
     final NotificationHelper _notificationHelper = NotificationHelper();
     var result = await ApiService().getRestaurantList();
@@ -34,5 +34,9 @@ class BackgroundService {
 
     _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);
     _uiSendPort?.send(null);
+  }
+
+  Future<void> someTask() async {
+    print('Execute some process');
   }
 }
