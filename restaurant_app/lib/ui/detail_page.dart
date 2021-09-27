@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:restaurant_app/common/notices.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -29,7 +30,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   @override
   void initState() {
     super.initState();
-    _restaurantDetail = ApiService().getRestaurantDetail(widget.restaurant.id);
+    _restaurantDetail =
+        ApiService(http.Client()).getRestaurantDetail(widget.restaurant.id);
   }
 
   @override

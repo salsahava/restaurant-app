@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/notices.dart';
 import 'package:restaurant_app/common/styles.dart';
@@ -39,7 +40,8 @@ class _SearchPageState extends State<SearchPage> {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: defaultPadding),
                       child: FutureBuilder(
-                        future: ApiService().searchRestaurant(query!),
+                        future:
+                            ApiService(http.Client()).searchRestaurant(query!),
                         builder:
                             (context, AsyncSnapshot<SearchResult> snapshot) {
                           var state = snapshot.connectionState;

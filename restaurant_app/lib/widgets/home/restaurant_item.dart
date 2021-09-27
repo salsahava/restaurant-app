@@ -37,8 +37,7 @@ class RestaurantItem extends StatelessWidget {
       subtitle: _buildLocation(context),
       trailing: Rating(rating: restaurant.rating),
       onTap: () {
-        Navigation.intentWithData(
-            RestaurantDetailPage.routeName, restaurant);
+        Navigation.intentWithData(RestaurantDetailPage.routeName, restaurant);
       },
     );
   }

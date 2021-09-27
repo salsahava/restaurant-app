@@ -1,29 +1,29 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:restaurant_app/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  // A test to check whether the bottom navigation bar works or not
+  testWidgets(
+      'should show settings page when clicking the settings bottom navigation bar item',
+      (WidgetTester tester) async {
+    // Build the app and trigger a frame
     await tester.pumpWidget(MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that it is the restaurant list page by checking the title
+    // Expects to find one widget with the text 'Restaurant App' (the title)
+    // Expects to find one widget with the text 'Settings' (the bottom navigation bar item)
+    expect(find.text('Restaurant App'), findsOneWidget);
+    expect(find.text('Settings'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Tap the settings bottom navigation bar item to navigate to settings page
+    await tester.tap(find.byIcon(Icons.settings));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that it is the settings page by checking the title
+    // Expects to find no widget with the text 'Restaurant App'
+    // Expects to find two widgets with the text 'Settings' (the title and the bottom navigation bar item)
+    expect(find.text('Restaurant App'), findsNothing);
+    expect(find.text('Settings'), findsNWidgets(2));
   });
 }

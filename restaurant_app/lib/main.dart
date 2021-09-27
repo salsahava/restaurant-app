@@ -1,6 +1,7 @@
 import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/common/styles.dart';
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => RestaurantProvider(apiService: ApiService()),
+          create: (_) =>
+              RestaurantProvider(apiService: ApiService(http.Client())),
         ),
         ChangeNotifierProvider(create: (_) => SchedulingProvider()),
         ChangeNotifierProvider(

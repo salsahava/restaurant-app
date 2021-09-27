@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/styles.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -30,7 +31,8 @@ class RestaurantListPage extends StatelessWidget {
           children: [
             HomeHeader(),
             ChangeNotifierProvider<RestaurantProvider>(
-                create: (_) => RestaurantProvider(apiService: ApiService()),
+                create: (_) =>
+                    RestaurantProvider(apiService: ApiService(http.Client())),
                 child: RestaurantList()),
           ],
         ),
