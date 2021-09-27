@@ -47,7 +47,10 @@ class FavoritesPage extends StatelessWidget {
             Expanded(
               child: Consumer<DatabaseProvider>(
                 builder: (context, provider, child) {
-                  if (provider.state == ResultState.HasData) {
+                  if (provider.state == ResultState.Loading) {
+                    return Center(
+                        child: CircularProgressIndicator(color: darkBlueGrey));
+                  } else if (provider.state == ResultState.HasData) {
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: provider.favorites.length,
@@ -56,6 +59,9 @@ class FavoritesPage extends StatelessWidget {
                         return RestaurantItem(restaurant: restaurant);
                       },
                     );
+                  } else if (provider.state == ResultState.Error) {
+                    return errorNotice(context,
+                        'Something went wrong. Please refresh the page to try again.');
                   } else {
                     return noResultsNotice(context, provider.message);
                   }
